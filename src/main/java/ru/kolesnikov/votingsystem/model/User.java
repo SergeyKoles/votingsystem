@@ -5,8 +5,8 @@ import java.util.List;
 public class User extends AbstractBaseEntity{
     private String name;
     private Role role;
-    private List<Restaurant> restaurants;
-    private Vote vote;
+//    private List<Restaurant> restaurants;
+//    private Vote vote;
 
     public User(Long id, String name, Role role) {
         super(id);

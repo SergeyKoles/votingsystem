@@ -21,6 +21,11 @@
 
         <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
 
+    <!--<bean class="ru.kolesnikov.votingsystem.repository.JpaUtil"/>-->
+
+    <context:component-scan base-package="ru.kolesnikov.**.repository"/>
+    <jpa:repositories base-package="ru.kolesnikov.**.repository"/>
+
         <!--no pooling-->
         <bean id="dataSource"
               class="org.springframework.jdbc.datasource.DriverManagerDataSource"
@@ -28,11 +33,6 @@
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
-
-
-
-
-
 
 
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
@@ -76,14 +76,5 @@
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
               p:entityManagerFactory-ref="entityManagerFactory"/>
-
-        <!--<bean class="ru.kolesnikov.votingsystem.repository.JpaUtil"/>-->
-
-
-
-
-
-        <context:component-scan base-package="ru.kolesnikov.**.repository"/>
-        <jpa:repositories base-package="ru.kolesnikov.**.repository"/>
 
 </beans>
