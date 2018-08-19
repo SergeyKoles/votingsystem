@@ -21,27 +21,7 @@ import java.util.List;
 
 import static ru.kolesnikov.votingsystem.UserTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringJUnit4ClassRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class UserServiceImplTest {
-
-    @ClassRule
-    public static ExternalResource summary = TimingRules.SUMMARY;
-
-    @Rule
-    public Stopwatch stopwatch = TimingRules.STOPWATCH;
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    static {
-        // needed only for java.util.logging (postgres driver)
-        SLF4JBridgeHandler.install();
-    }
+public class UserServiceImplTest extends AbstractServiceTest{
 
     @Autowired
     private UserService service;

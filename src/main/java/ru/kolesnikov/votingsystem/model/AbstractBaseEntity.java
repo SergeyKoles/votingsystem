@@ -29,7 +29,6 @@ public abstract class AbstractBaseEntity implements Persistable<Long>{
         this.id = id;
     }
 
-//    @Nullable
     @Override
     public Long getId() {
         return id;

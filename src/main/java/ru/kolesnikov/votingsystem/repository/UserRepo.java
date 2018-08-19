@@ -8,14 +8,4 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface UserRepo extends JpaRepository<User, Long> {
-
-//    long delete();
-
-//    @Override
-//    Optional<User> findById(Long id);
-
-//    User get(int id);
-//    List<User> getAll();
-//    User save(User user);
-//    boolean delete(int id);
 }

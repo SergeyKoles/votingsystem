@@ -11,10 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static ru.kolesnikov.votingsystem.UserTestData.*;
 
 @Repository
-public class InMemoryRepo {
+public class InMemoryUserRepo {
 
     private Map<Long, User> repository = new ConcurrentHashMap<>();
-    private AtomicInteger counter = new AtomicInteger(100);
 
     public void init() {
         repository.clear();
@@ -22,9 +21,5 @@ public class InMemoryRepo {
         repository.put(USER_B_ID, USER_B);
         repository.put(ADMIN_A_ID, ADMIN_A);
         repository.put(ADMIN_B_ID, ADMIN_B);
-    }
-
-    public User get(Long id){
-        return repository.get(id);
     }
 }

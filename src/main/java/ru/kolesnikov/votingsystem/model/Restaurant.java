@@ -1,16 +1,57 @@
 package ru.kolesnikov.votingsystem.model;
 
-import java.util.List;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-public class Restaurant extends AbstractBaseEntity{
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "restaurants")
+public class Restaurant extends AbstractBaseEntity {
+
+    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(min = 3, max = 25)
     private String name;
-    private User admin;
-//    private List<Dish> menu;
 
-    public Restaurant(Long id, String name, User admin/*, List<Dish> menu*/) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private User admin;
+
+    public Restaurant() {
+    }
+
+    public Restaurant(Long id, String name) {
         super(id);
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
         this.admin = admin;
-//        this.menu = menu;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "name='" + name + '\'' +
+                ", admin=" + admin +
+                '}';
     }
 }
