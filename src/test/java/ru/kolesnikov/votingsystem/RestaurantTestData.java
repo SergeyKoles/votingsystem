@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.kolesnikov.votingsystem.model.AbstractBaseEntity.START_SEQ;
-import static ru.kolesnikov.votingsystem.UserTestData.*;
 
 
 public class RestaurantTestData {
