@@ -1,16 +1,45 @@
 package ru.kolesnikov.votingsystem.model;
 
-import java.time.LocalDateTime;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-public class Vote extends AbstractBaseEntity{
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
+
+@Entity
+@Table(name = "votes")
+public class Vote extends AbstractBaseEntity {
+
+    @Column(name = "time_of_voting")
+    @NotNull
+    private LocalTime timeOfVoting;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private User user;
-    private Restaurant restaurant;
-    private LocalDateTime timeOfVoting;
 
-    public Vote(Long id, User user, Restaurant restaurant) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Restaurant restaurant;
+
+    public Vote() {
+    }
+
+    public Vote(Long id, @NotNull long userId, @NotNull long restaurantId) {
         super(id);
-        this.user = user;
-        this.restaurant = restaurant;
-        this.timeOfVoting = LocalDateTime.now();
+        this.timeOfVoting = LocalTime.now();
+    }
+
+    public LocalTime getTimeOfVoting() {
+        return timeOfVoting;
+    }
+
+    public void setTimeOfVoting(LocalTime timeOfVoting) {
+        this.timeOfVoting = timeOfVoting;
     }
 }
