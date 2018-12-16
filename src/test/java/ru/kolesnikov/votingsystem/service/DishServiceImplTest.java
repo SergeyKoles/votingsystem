@@ -36,7 +36,7 @@ public class DishServiceImplTest extends AbstractServiceTest {
     @Test
     public void update() throws Exception {
         Dish updated = new Dish(CEZAR_ID, "Cezar_Tomat", 230L);
-        updated.setRestaurant(Teremok);
+        updated.setRestaurant(TEREMOK);
         dishService.update(updated, TEREMOK_ID);
         assertMatch(dishService.get(CEZAR_ID, TEREMOK_ID), updated);
     }

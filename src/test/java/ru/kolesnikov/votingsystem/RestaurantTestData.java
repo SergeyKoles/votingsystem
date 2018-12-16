@@ -14,7 +14,7 @@ public class RestaurantTestData {
     public static final long TEREMOK_ID = START_SEQ + 5;
 
     public static final Restaurant DODO = new Restaurant(DODO_ID, "DODO");
-    public static final Restaurant Teremok = new Restaurant(TEREMOK_ID, "Teremok");
+    public static final Restaurant TEREMOK = new Restaurant(TEREMOK_ID, "TEREMOK");
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected,"admin");

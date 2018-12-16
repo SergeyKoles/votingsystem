@@ -47,6 +47,7 @@ CREATE TABLE votes (
   time_of_voting TIME  NOT NULL,
   user_id        BIGINT                 NOT NULL,
   restaurant_id  BIGINT                 NOT NULL,
+--   CONSTRAINT user_idx UNIQUE (user_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );

@@ -28,6 +28,7 @@ public class Vote extends AbstractBaseEntity {
     private Restaurant restaurant;
 
     public Vote() {
+        this.timeOfVoting = LocalTime.now();
     }
 
     public Vote(Long id, @NotNull long userId, @NotNull long restaurantId) {
@@ -41,5 +42,21 @@ public class Vote extends AbstractBaseEntity {
 
     public void setTimeOfVoting(LocalTime timeOfVoting) {
         this.timeOfVoting = timeOfVoting;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

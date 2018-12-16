@@ -2,7 +2,6 @@ package ru.kolesnikov.votingsystem.repository.mock;
 
 import org.springframework.stereotype.Repository;
 import ru.kolesnikov.votingsystem.model.Restaurant;
-import ru.kolesnikov.votingsystem.model.User;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +16,6 @@ public class InMemoryRestaurantRepo {
     public void init() {
         repository.clear();
         repository.put(DODO_ID, DODO);
-        repository.put(TEREMOK_ID, Teremok);
+        repository.put(TEREMOK_ID, TEREMOK);
     }
 }

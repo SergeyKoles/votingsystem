@@ -3,23 +3,30 @@ package ru.kolesnikov.votingsystem.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kolesnikov.votingsystem.model.Vote;
-
-import java.util.List;
 
 public interface VoteRepo extends JpaRepository<Vote, Long> {
 
-    List<Vote> getAllByRestaurantId(long restaurantId);
+    long countAllByRestaurantId(long restaurantId);
 
-//    List<Vote> getAllByUserId(long userId);
+//    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId")
+//    Vote getVoteByUserId(@Param("userId")long userId);
+    Vote getVoteByUserId(long userId);
 
-//    @Query("IN")
-//    Vote create(Vote vote, long restaurantId, long userId);
+    @Modifying
+    @Transactional
+    Vote save(Vote vote);
 
     @Modifying
     @Query("DELETE FROM Vote")
     void deleteAll();
 
+//    @Modifying
+//    Vote deleteByUserId(long userId);
+
+    @Transactional
     @Modifying
-    int deleteByUserId(long userId);
+    void deleteVoteByUserId(long userId);
 }

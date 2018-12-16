@@ -1,19 +1,7 @@
 package ru.kolesnikov.votingsystem.service;
 
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.ExternalResource;
-import org.junit.rules.Stopwatch;
-import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.kolesnikov.votingsystem.TimingRules;
 import ru.kolesnikov.votingsystem.model.Role;
 import ru.kolesnikov.votingsystem.model.User;
 

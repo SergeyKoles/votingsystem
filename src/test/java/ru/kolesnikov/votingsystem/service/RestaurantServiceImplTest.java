@@ -16,7 +16,7 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        assertMatch(service.getAll(), DODO, Teremok);
+        assertMatch(service.getAll(), DODO, TEREMOK);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
         Restaurant newRestaurant = new Restaurant(null, "Olis");
         Restaurant created = service.create(newRestaurant, ADMIN_A_ID);
         newRestaurant.setId(created.getId());
-        assertMatch(service.getAll(), DODO, Teremok, newRestaurant);
+        assertMatch(service.getAll(), DODO, TEREMOK, newRestaurant);
     }
 
     @Test
@@ -49,6 +49,6 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(DODO_ID, ADMIN_A_ID);
-        assertMatch(service.getAllByAdminId(ADMIN_B_ID), Teremok);
+        assertMatch(service.getAllByAdminId(ADMIN_B_ID), TEREMOK);
     }
 }

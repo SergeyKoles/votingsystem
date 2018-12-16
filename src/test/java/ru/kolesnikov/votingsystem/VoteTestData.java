@@ -14,12 +14,18 @@ import static ru.kolesnikov.votingsystem.model.AbstractBaseEntity.START_SEQ;
 public class VoteTestData {
     public static final long VOTE_USER_A_ID = START_SEQ + 10;
     public static final long VOTE_USER_B_ID = START_SEQ + 11;
+    public static final long VOTE_ADMIN_A_ID = START_SEQ + 12;
 
     public static final Vote VOTE_USER_A = new Vote(VOTE_USER_A_ID, USER_A_ID, DODO_ID);
     public static final Vote VOTE_USER_B = new Vote(VOTE_USER_B_ID, USER_B_ID, DODO_ID);
+    public static final Vote VOTE_ADMIN_A = new Vote(VOTE_ADMIN_A_ID, ADMIN_A_ID, DODO_ID);
 
     public static void assertMatch(Vote actual, Vote expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    public static void assertMatch(long actual, long expected) {
+        assertThat(actual).isEqualTo(expected);
     }
 
     public static void assertMatch(Iterable<Vote> actual, Vote... expected) {
