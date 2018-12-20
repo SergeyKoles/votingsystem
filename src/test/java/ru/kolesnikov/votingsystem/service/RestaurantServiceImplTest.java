@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.kolesnikov.votingsystem.model.Restaurant;
 
+import java.util.List;
+
 import static ru.kolesnikov.votingsystem.RestaurantTestData.*;
 import static ru.kolesnikov.votingsystem.UserTestData.*;
 
@@ -16,12 +18,12 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        assertMatch(service.getAll(), DODO, TEREMOK);
+        assertMatch(service.getAll(), DODO, TEREMOK, MD, OLIS, LESTER, KFC);
     }
 
     @Test
     public void getAllByAdminId() throws Exception {
-        assertMatch(service.getAllByAdminId(ADMIN_A_ID), DODO);
+        assertMatch(service.getAllByAdminId(ADMIN_A_ID), DODO, OLIS);
     }
 
     @Test
@@ -35,7 +37,7 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
         Restaurant newRestaurant = new Restaurant(null, "Olis");
         Restaurant created = service.create(newRestaurant, ADMIN_A_ID);
         newRestaurant.setId(created.getId());
-        assertMatch(service.getAll(), DODO, TEREMOK, newRestaurant);
+        assertMatch(service.getAll(), DODO, TEREMOK, MD, OLIS, LESTER, KFC, newRestaurant);
     }
 
     @Test
@@ -49,6 +51,6 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(DODO_ID, ADMIN_A_ID);
-        assertMatch(service.getAllByAdminId(ADMIN_B_ID), TEREMOK);
+        assertMatch(service.getAllByAdminId(ADMIN_B_ID), TEREMOK, MD, LESTER, KFC);
     }
 }

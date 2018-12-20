@@ -17,7 +17,7 @@ public class DishServiceImplTest extends AbstractServiceTest {
     @Test
     public void getAllByRestaurantId() throws Exception {
         List<Dish> dishes = dishService.getAllByRestaurantId(DODO_ID);
-        assertMatch(dishes, MORGARITA, PEPERONI);
+        assertMatch(dishes, MORGARITA, PEPERONI, CEZAR);
     }
 
     @Test
@@ -30,21 +30,21 @@ public class DishServiceImplTest extends AbstractServiceTest {
         Dish newDish = new Dish(null, "4Cheese", 270L);
         Dish created = dishService.create(newDish, DODO_ID);
         newDish.setId(created.getId());
-        assertMatch(dishService.getAllByRestaurantId(DODO_ID), MORGARITA, PEPERONI, newDish);
+        assertMatch(dishService.getAllByRestaurantId(DODO_ID), MORGARITA, PEPERONI, CEZAR, newDish);
     }
 
     @Test
     public void update() throws Exception {
         Dish updated = new Dish(CEZAR_ID, "Cezar_Tomat", 230L);
-        updated.setRestaurant(TEREMOK);
-        dishService.update(updated, TEREMOK_ID);
-        assertMatch(dishService.get(CEZAR_ID, TEREMOK_ID), updated);
+        updated.setRestaurant(DODO);
+        dishService.update(updated, DODO_ID);
+        assertMatch(dishService.get(CEZAR_ID, DODO_ID), updated);
     }
 
     @Test
     public void delete() throws Exception {
         dishService.delete(PLAIN_ID, TEREMOK_ID);
-        assertMatch(dishService.getAllByRestaurantId(TEREMOK_ID), CEZAR);
+        assertMatch(dishService.getAllByRestaurantId(TEREMOK_ID), CHICKEN, HAMBURGER);
     }
 
 }

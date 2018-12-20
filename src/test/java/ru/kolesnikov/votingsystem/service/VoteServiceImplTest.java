@@ -17,7 +17,7 @@ public class VoteServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void countAllByRestaurantId() throws Exception {
-        assertMatch(voteService.countAllByRestaurantId(DODO_ID), 2L);
+        assertMatch(voteService.countAllByRestaurantId(DODO_ID), 3L);
     }
 
 
