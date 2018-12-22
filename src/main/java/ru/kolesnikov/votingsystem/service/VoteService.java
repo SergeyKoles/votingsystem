@@ -16,4 +16,10 @@ public interface VoteService {
     void update(Vote vote, long restaurantId);
 
     void deleteByUserId(long userId);
+
+    List<Vote> getAllWithRestaurants();
+
+    List<Vote> getAll();
+
+    List<Vote> getAllByRestaurantId(long id);
 }

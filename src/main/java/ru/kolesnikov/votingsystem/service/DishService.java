@@ -1,5 +1,6 @@
 package ru.kolesnikov.votingsystem.service;
 
+import org.springframework.stereotype.Repository;
 import ru.kolesnikov.votingsystem.model.Dish;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface DishService {
     Dish update(Dish dish, long restaurantId);
 
     void delete(long id, long restaurantId);
+
+    List<Dish> getAllWithRestaurants();
 }

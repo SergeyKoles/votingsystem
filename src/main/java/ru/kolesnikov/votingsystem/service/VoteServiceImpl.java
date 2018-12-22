@@ -69,4 +69,19 @@ public class VoteServiceImpl implements VoteService {
     public Vote getByUserId(long userId) {
         return voteRepo.getVoteByUserId(userId);
     }
+
+    @Override
+    public List<Vote> getAllWithRestaurants() {
+        return voteRepo.getAllWithRestaurants();
+    }
+
+    @Override
+    public List<Vote> getAll() {
+        return voteRepo.findAll();
+    }
+
+    @Override
+    public List<Vote> getAllByRestaurantId(long id) {
+        return voteRepo.getAllByRestaurantId(id);
+    }
 }

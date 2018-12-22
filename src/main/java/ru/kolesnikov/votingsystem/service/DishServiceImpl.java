@@ -49,4 +49,9 @@ public class DishServiceImpl implements DishService {
     public void delete(long id, long restaurantId) {
         dishRepo.delete(id, restaurantId);
     }
+
+    @Override
+    public List<Dish> getAllWithRestaurants() {
+        return dishRepo.getAllWithRestaurants();
+    }
 }

@@ -1,5 +1,6 @@
 package ru.kolesnikov.votingsystem.model;
 
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,7 +22,7 @@ public class Vote extends AbstractBaseEntity {
     @NotNull
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
@@ -58,5 +59,14 @@ public class Vote extends AbstractBaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "timeOfVoting=" + timeOfVoting +
+//                ", user=" + user +
+//                ", restaurant=" + restaurant +
+                '}';
     }
 }
