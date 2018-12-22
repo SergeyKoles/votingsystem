@@ -13,11 +13,15 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.annotation.PostConstruct;
 
+import java.util.stream.Collectors;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.kolesnikov.votingsystem.RestaurantTestData.DODO_ID;
+import static ru.kolesnikov.votingsystem.RestaurantTestData.*;
+import static ru.kolesnikov.votingsystem.util.RestaurantUtil.*;
 
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -55,13 +59,14 @@ class RootControllerTest {
 //        }
     }
 
+
     @Test
     public void getAllWithRateAndMenu() throws Exception {
         mockMvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(getToMatcher())
+                .andExpect(getToMatcher(getAllWithRateAndDishes(VOTES_WITH_RESTAURANTS, DISHES_WITH_RESTAURANT)))
         ;
     }
 
@@ -70,46 +75,10 @@ class RootControllerTest {
         mockMvc.perform(get("/restaurant/" + DODO_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(getToMatcher(getAllWithRateAndDishes(
+                        VOTES_WITH_RESTAURANTS.stream().filter(vote -> vote.getRestaurant().getId()==DODO_ID).collect(Collectors.toList()),
+                        DISHES_WITH_RESTAURANT.stream().filter(vote -> vote.getRestaurant().getId()==DODO_ID).collect(Collectors.toList()))))
+        ;
     }
-
-//    public static void main(String[] args) {
-//        List<Dish> dishes = Arrays.asList(
-//                new Dish(MORGARITA, DODO),
-//                new Dish(PEPERONI, DODO),
-//                new Dish(CEZAR, DODO),
-//                new Dish(PLAIN, TEREMOK),
-//                new Dish(CHICKEN, TEREMOK),
-//                new Dish(HAMBURGER, TEREMOK),
-//                new Dish(EGGS, MD),
-//                new Dish(PORK, MD),
-//                new Dish(PEPSI, MD),
-//                new Dish(COCA_COLA, OLIS),
-//                new Dish(FANTA, OLIS),
-//                new Dish(TEA, OLIS),
-//                new Dish(COFFEE, LESTER),
-//                new Dish(JUICE, LESTER),
-//                new Dish(BEER, LESTER),
-//                new Dish(MOCHA, KFC),
-//                new Dish(BEFF, KFC),
-//                new Dish(ICE_CREAM, KFC));
-//
-//        List<Vote> votes = Arrays.asList(
-//                new Vote(VOTE_USER_A, DODO),
-//                new Vote(VOTE_USER_B, DODO),
-//                new Vote(VOTE_USER_C, DODO),
-//                new Vote(VOTE_USER_D, TEREMOK),
-//                new Vote(VOTE_USER_E, LESTER),
-//                new Vote(VOTE_USER_F, LESTER),
-//                new Vote(VOTE_USER_G, KFC),
-//                new Vote(VOTE_ADMIN_A, DODO));
-//
-//
-////        getWithRateAndDishes(votes, dishes);
-//
-////        for (RestaurantTo to : getWithRateAndDishes(votes, dishes)){
-////            System.out.println(to.toString());
-////        }
-//        getWithRateAndDishes(votes, dishes).stream().forEach(r -> System.out.println(r));
-//    }
 }

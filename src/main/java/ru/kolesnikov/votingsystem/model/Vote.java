@@ -37,6 +37,12 @@ public class Vote extends AbstractBaseEntity {
         this.timeOfVoting = LocalTime.now();
     }
 
+    public Vote(Vote vote, Restaurant restaurant){
+        super(vote.getId());
+        this.timeOfVoting =vote.getTimeOfVoting();
+        this.restaurant = restaurant;
+    }
+
     public LocalTime getTimeOfVoting() {
         return timeOfVoting;
     }
