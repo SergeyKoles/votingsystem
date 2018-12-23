@@ -41,14 +41,15 @@ public class RestaurantUtil {
                 .map(Vote::getRestaurant)
                 .collect(Collectors.toList())
                 .stream()
-                .map(rest -> createRestaurantTo(rest.getName(),
+                .map(rest -> createRestaurantTo(rest.getId(),
+                        rest.getName(),
                         dishTos(dishesSumByRestaurant.get(rest)),
                         votesSumByRestaurant.get(rest)))
                 .collect(Collectors.toList());
     }
 
-    private static RestaurantTo createRestaurantTo(String name, List<DishTo> dishes, long rate) {
-        return new RestaurantTo(name, dishes, rate);
+    private static RestaurantTo createRestaurantTo(long id, String name, List<DishTo> dishes, long rate) {
+        return new RestaurantTo(id, name, dishes, rate);
     }
 
     private static List<DishTo> dishTos(List<Dish> dishes) {
@@ -56,7 +57,7 @@ public class RestaurantUtil {
     }
 
     private static DishTo createDishTo(Dish dish) {
-        return new DishTo(dish.getName(), dish.getPrice());
+        return new DishTo(dish.getId(), dish.getName(), dish.getPrice());
     }
 
     // https://stackoverflow.com/questions/23699371/java-8-distinct-by-property
