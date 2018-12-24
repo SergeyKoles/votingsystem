@@ -2,15 +2,22 @@ package ru.kolesnikov.votingsystem.to;
 
 public class DishTo {
 
-    public DishTo(String name, Long price) {
+    public DishTo(long id, String name, Long price) {
+        this.id = id;
         this.name = name;
         this.price = price;
     }
+
     public DishTo() {
     }
 
+    private long id;
     private String name;
     private Long price;
+
+    public long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -23,7 +30,8 @@ public class DishTo {
     @Override
     public String toString() {
         return "DishTo{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
     }
@@ -35,14 +43,16 @@ public class DishTo {
 
         DishTo dishTo = (DishTo) o;
 
-        if (name != null ? !name.equals(dishTo.name) : dishTo.name != null) return false;
-        return price != null ? price.equals(dishTo.price) : dishTo.price == null;
+        if (id != dishTo.id) return false;
+        if (!name.equals(dishTo.name)) return false;
+        return price.equals(dishTo.price);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + price.hashCode();
         return result;
     }
 }
