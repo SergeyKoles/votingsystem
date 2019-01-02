@@ -12,17 +12,17 @@ FROM users;
 ALTER SEQUENCE global_seq
   RESTART WITH 100000;
 
-INSERT INTO users (name)
+INSERT INTO users (email, password)
 VALUES
-  ('user_A'),
-  ('user_B'),
-  ('user_C'),
-  ('user_D'),
-  ('user_E'),
-  ('user_F'),
-  ('user_G'),
-  ('admin_A'),
-  ('admin_B');
+  ('user_A@yandex.ru', 'password_A'),
+  ('user_B@yandex.ru', 'password_B'),
+  ('user_C@yandex.ru', 'password_C'),
+  ('user_D@yandex.ru', 'password_D'),
+  ('user_E@yandex.ru', 'password_E'),
+  ('user_F@yandex.ru', 'password_F'),
+  ('user_G@yandex.ru', 'password_G'),
+  ('admin_A@yandex.ru', 'password_admin_A'),
+  ('admin_B@yandex.ru', 'password_admin_B');
 INSERT INTO user_roles (user_id, role)
 VALUES
   (100000, 'USER'),

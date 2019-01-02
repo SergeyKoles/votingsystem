@@ -4,6 +4,7 @@ import org.hibernate.annotations.BatchSize;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -16,10 +17,16 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends AbstractBaseEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
     @NotBlank
-    @Size(min = 3, max = 25)
-    private String name;
+    @Size(min = 3, max = 50)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 100)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -32,25 +39,26 @@ public class User extends AbstractBaseEntity {
     }
 
     public User(User u) {
-        this(u.getId(), u.getName(), u.getRoles());
+        this(u.getId(), u.getEmail(), u.getPassword(), u.getRoles());
     }
 
-    public User(Long id, String name, Role role, Role... roles) {
-        this(id, name, EnumSet.of(role, roles));
+    public User(Long id, String email, String password, Role role, Role... roles) {
+        this(id, email, password, EnumSet.of(role, roles));
     }
 
-    public User(Long id, String name, Collection<Role> roles) {
+    public User(Long id, String email, String password, Collection<Role> roles) {
         super(id);
-        this.name = name;
+        this.email = email;
+        this.password = password;
         setRoles(roles);
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String name) {
+        this.email = name;
     }
 
     public Set<Role> getRoles() {
@@ -61,11 +69,20 @@ public class User extends AbstractBaseEntity {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                ", role=" + roles +
+                "id=" + id +
+                ", email='" + email +
+                ", roles=" + roles +
                 '}';
     }
 }

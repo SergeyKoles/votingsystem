@@ -20,7 +20,7 @@ public abstract class AbstractBaseEntity implements Persistable<Long>{
 
 //  See https://hibernate.atlassian.net/browse/HHH-3718 and https://hibernate.atlassian.net/browse/HHH-12034
 //  Proxy initialization when accessing its identifier managed now by JPA_PROXY_COMPLIANCE setting
-    private Long id;
+    protected Long id;
 
     protected AbstractBaseEntity(){
     }
@@ -62,7 +62,6 @@ public abstract class AbstractBaseEntity implements Persistable<Long>{
 
     @Override
     public int hashCode() {
-//        return id != null ? id.hashCode() : 0;
         return (int) (id == null ? 0 : id);
     }
 }
