@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.kolesnikov.votingsystem.model.Dish;
 import ru.kolesnikov.votingsystem.model.Restaurant;
 import ru.kolesnikov.votingsystem.service.DishService;
 import ru.kolesnikov.votingsystem.service.RestaurantService;
@@ -14,7 +13,6 @@ import ru.kolesnikov.votingsystem.web.SecurityUtil;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/admin")
@@ -53,7 +51,6 @@ public class AdminRestaurantController {
     @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         long adminId = SecurityUtil.authAdminId();
-//        checkNew(restaurant);
         Restaurant created = restaurantService.create(restaurant, adminId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/admin/restaurant" + "/{id}")

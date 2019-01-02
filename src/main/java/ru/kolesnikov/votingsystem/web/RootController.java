@@ -41,11 +41,16 @@ public class RootController {
         return getAllWithRateAndDishes(votes, dishes);
     }
 
-    @GetMapping(value = "restaurant/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "restaurants/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestaurantTo getRestaurantByIdWithMenuAndRate(@PathVariable("id") long id){
         List<Dish> dishes = dishService.getAllByRestaurantId(id);
         List<Vote> votes = voteService.getAllByRestaurantId(id);
 
         return getWithRateAndDishes(votes,dishes);
+    }
+
+    @GetMapping(value = "/restaurants/{id}/votes")
+    public long getAllByRestaurantId(@PathVariable("id") long id){
+        return voteService.countAllByRestaurantId(id);
     }
 }

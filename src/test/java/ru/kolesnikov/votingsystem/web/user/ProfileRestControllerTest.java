@@ -36,13 +36,4 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, created);
     }
-
-    @Test
-    public void deleteVote() throws Exception {
-
-        mockMvc.perform(delete("/profile/votes/100033"))
-                .andExpect(status().isNoContent());
-        assertMatch(voteService.getAll(), VOTE_USER_B, VOTE_USER_C, VOTE_USER_D, VOTE_USER_E, VOTE_USER_F,
-                VOTE_USER_G);
-    }
 }

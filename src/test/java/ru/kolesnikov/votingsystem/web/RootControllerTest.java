@@ -23,42 +23,7 @@ import static ru.kolesnikov.votingsystem.RestaurantTestData.DODO_ID;
 import static ru.kolesnikov.votingsystem.RestaurantTestData.*;
 import static ru.kolesnikov.votingsystem.util.RestaurantUtil.*;
 
-@SpringJUnitWebConfig(locations = {
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-mvc.xml",
-        "classpath:spring/spring-db.xml"
-})
-@Transactional
-class RootControllerTest {
-
-    private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-
-    static {
-        CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
-        CHARACTER_ENCODING_FILTER.setForceEncoding(true);
-    }
-
-    protected MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @PostConstruct
-    private void postConstruct() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .addFilter(CHARACTER_ENCODING_FILTER)
-                .build();
-    }
-
-    @BeforeEach
-    void setUp() {
-//        cacheManager.getCache("restaurants").clear();
-//        if (jpaUtil != null) {
-//            jpaUtil.clear2ndLevelHibernateCache();
-//        }
-    }
-
+class RootControllerTest extends AbstractControllerTest{
 
     @Test
     public void getAllWithRateAndMenu() throws Exception {
@@ -72,7 +37,7 @@ class RootControllerTest {
 
     @Test
     public void getRestaurantByIdWithMenuAndRate() throws Exception {
-        mockMvc.perform(get("/restaurant/" + DODO_ID))
+        mockMvc.perform(get("/restaurants/" + DODO_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

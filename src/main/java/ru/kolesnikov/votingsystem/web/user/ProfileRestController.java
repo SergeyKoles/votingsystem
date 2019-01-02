@@ -11,10 +11,11 @@ import ru.kolesnikov.votingsystem.service.VoteService;
 import ru.kolesnikov.votingsystem.web.SecurityUtil;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController {
 
     @Autowired
@@ -27,16 +28,8 @@ public class ProfileRestController {
         Vote created = voteService.create(vote, restaurantId, userId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/restaurants/{id}/votes" + "/{id}")
-                .path("/restaurants/{id}/votes")
-                .buildAndExpand(created.getId()).toUri();
+                .path("/restaurants/{id}/votes" + "/{id}")
+                .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @DeleteMapping(value = "/votes/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteVote(@PathVariable("id") long id) {
-        long userId = SecurityUtil.authUserId();
-        voteService.deleteVoteById(id, userId);
     }
 }
