@@ -25,15 +25,15 @@ VALUES
   ('admin_B@yandex.ru', 'password_admin_B');
 INSERT INTO user_roles (user_id, role)
 VALUES
-  (100000, 'USER'),
-  (100001, 'USER'),
-  (100002, 'USER'),
-  (100003, 'USER'),
-  (100004, 'USER'),
-  (100005, 'USER'),
-  (100006, 'USER'),
-  (100007, 'ADMIN'),
-  (100008, 'ADMIN');
+  (100000, 'ROLE_USER'),
+  (100001, 'ROLE_USER'),
+  (100002, 'ROLE_USER'),
+  (100003, 'ROLE_USER'),
+  (100004, 'ROLE_USER'),
+  (100005, 'ROLE_USER'),
+  (100006, 'ROLE_USER'),
+  (100007, 'ROLE_ADMIN'),
+  (100008, 'ROLE_ADMIN');
 INSERT INTO restaurants (NAME, USER_ID)
 VALUES
   ('DODO', 100007),

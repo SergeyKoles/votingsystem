@@ -1,0 +1,35 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/resources/**" security="none"/>
+    <!--<http pattern="/webjars/**" security="none"/>-->
+
+    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+        <http-basic/>
+        <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <beans:bean name="noopEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder ref="noopEncoder"/>
+            <user-service>
+                <user name="user_A@yandex.ru" password="password_A" authorities="ROLE_USER"/>
+                <user name="user_B@yandex.ru" password="password_B" authorities="ROLE_USER"/>
+                <user name="user_C@yandex.ru" password="password_C" authorities="ROLE_USER"/>
+                <user name="user_D@yandex.ru" password="password_D" authorities="ROLE_USER"/>
+                <user name="user_E@yandex.ru" password="password_E" authorities="ROLE_USER"/>
+                <user name="user_F@yandex.ru" password="password_F" authorities="ROLE_USER"/>
+                <user name="user_G@yandex.ru" password="password_G" authorities="ROLE_USER"/>
+                <user name="admin_A@yandex.ru" password="password_admin_A" authorities="ROLE_ADMIN"/>
+                <user name="admin_B@yandex.ru" password="password_admin_B" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>
