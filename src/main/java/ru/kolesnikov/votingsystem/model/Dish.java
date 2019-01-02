@@ -31,6 +31,10 @@ public class Dish extends AbstractBaseEntity {
     public Dish() {
     }
 
+    public Dish(String name, Long price) {
+        this(null, name, price);
+    }
+
     public Dish(Dish dish, Restaurant restaurant) {
         super(dish.getId());
         this.name = dish.getName();
@@ -66,5 +70,14 @@ public class Dish extends AbstractBaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+//                ", restaurant=" + restaurant +
+                '}';
     }
 }
