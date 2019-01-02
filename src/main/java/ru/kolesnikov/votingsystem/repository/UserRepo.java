@@ -8,4 +8,6 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface UserRepo extends JpaRepository<User, Long> {
+
+    User getByEmail(String email);
 }

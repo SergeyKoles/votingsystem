@@ -9,7 +9,7 @@
 
     <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
-        <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
         <csrf disabled="true"/>
     </http>
@@ -17,19 +17,19 @@
     <beans:bean name="noopEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
 
     <authentication-manager>
-        <authentication-provider>
+        <authentication-provider user-service-ref="userService">
             <password-encoder ref="noopEncoder"/>
-            <user-service>
-                <user name="user_A@yandex.ru" password="password_A" authorities="ROLE_USER"/>
-                <user name="user_B@yandex.ru" password="password_B" authorities="ROLE_USER"/>
-                <user name="user_C@yandex.ru" password="password_C" authorities="ROLE_USER"/>
-                <user name="user_D@yandex.ru" password="password_D" authorities="ROLE_USER"/>
-                <user name="user_E@yandex.ru" password="password_E" authorities="ROLE_USER"/>
-                <user name="user_F@yandex.ru" password="password_F" authorities="ROLE_USER"/>
-                <user name="user_G@yandex.ru" password="password_G" authorities="ROLE_USER"/>
-                <user name="admin_A@yandex.ru" password="password_admin_A" authorities="ROLE_ADMIN"/>
-                <user name="admin_B@yandex.ru" password="password_admin_B" authorities="ROLE_ADMIN"/>
-            </user-service>
+            <!--<user-service>-->
+                <!--<user name="user_A@yandex.ru" password="password_A" authorities="ROLE_USER"/>-->
+                <!--<user name="user_B@yandex.ru" password="password_B" authorities="ROLE_USER"/>-->
+                <!--<user name="user_C@yandex.ru" password="password_C" authorities="ROLE_USER"/>-->
+                <!--<user name="user_D@yandex.ru" password="password_D" authorities="ROLE_USER"/>-->
+                <!--<user name="user_E@yandex.ru" password="password_E" authorities="ROLE_USER"/>-->
+                <!--<user name="user_F@yandex.ru" password="password_F" authorities="ROLE_USER"/>-->
+                <!--<user name="user_G@yandex.ru" password="password_G" authorities="ROLE_USER"/>-->
+                <!--<user name="admin_A@yandex.ru" password="password_admin_A" authorities="ROLE_ADMIN"/>-->
+                <!--<user name="admin_B@yandex.ru" password="password_admin_B" authorities="ROLE_ADMIN"/>-->
+            <!--</user-service>-->
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
