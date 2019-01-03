@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.kolesnikov.votingsystem.DishTestData.*;
 import static ru.kolesnikov.votingsystem.RestaurantTestData.*;
+import static ru.kolesnikov.votingsystem.UserTestData.ADMIN_A;
 import static ru.kolesnikov.votingsystem.web.TestUtil.*;
 
 class AdminDishControllerTest extends AbstractControllerTest {
@@ -23,7 +24,9 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteTest() throws Exception {
-        mockMvc.perform(delete("/admin/restaurants/" + DODO_ID + "/dishes/" + MORGARITA_ID))
+        mockMvc.perform(delete("/admin/restaurants/" + DODO_ID + "/dishes/" + MORGARITA_ID)
+                .with(userHttpBasic(ADMIN_A)))
+                .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(dishService.getAllByRestaurantId(DODO_ID), PEPERONI, CEZAR);
     }
@@ -35,7 +38,9 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(put("/admin/restaurants/" + DODO_ID + "/dishes/" + MORGARITA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A))
                 .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
                 .andExpect(status().isNoContent());
 
         assertMatch(dishService.getAllByRestaurantId(DODO_ID), PEPERONI, CEZAR, updated);
@@ -47,7 +52,9 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
         ResultActions action = mockMvc.perform(post("/admin/restaurants/" + DODO_ID + "/dishes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(created)));
+                .with(userHttpBasic(ADMIN_A))
+                .content(JsonUtil.writeValue(created)))
+                .andDo(print());
 
         Dish returned = readFromJsonResultActions(action, Dish.class);
         created.setId(returned.getId());

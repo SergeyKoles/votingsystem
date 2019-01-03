@@ -25,7 +25,9 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAll() throws Exception {
-        mockMvc.perform(get("/admin/restaurants"))
+        mockMvc.perform(get("/admin/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -34,7 +36,8 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getRestaurantsByAdminId() throws Exception {
-        mockMvc.perform(get("/admin/" + ADMIN_A_ID + "/restaurants"))
+        mockMvc.perform(get("/admin/" + ADMIN_A_ID + "/restaurants").contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -43,7 +46,9 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getRestaurantByIdAndAdminId() throws Exception {
-        mockMvc.perform(get("/admin/" + ADMIN_A_ID + "/restaurants/" + DODO_ID))
+        mockMvc.perform(get("/admin/" + ADMIN_A_ID + "/restaurants/" + DODO_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -52,7 +57,9 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteRestaurantByIdAndByAdminId() throws Exception {
-        mockMvc.perform(delete("/admin/restaurants/" + DODO_ID))
+        mockMvc.perform(delete("/admin/restaurants/" + DODO_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A)))
                 .andExpect(status().isNoContent());
         assertMatch(restaurantService.getAllByAdminId(ADMIN_B_ID), TEREMOK, MD, LESTER, KFC);
     }
@@ -63,6 +70,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
         ResultActions action = mockMvc.perform(post("/admin/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A))
                 .content(JsonUtil.writeValue(created)));
 
         Restaurant returned = readFromJsonResultActions(action, Restaurant.class);
@@ -79,7 +87,9 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(put("/admin/restaurants/" + DODO_ID)
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN_A))
                 .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
                 .andExpect(status().isNoContent());
 
         assertMatch(restaurantService.getRestaurantByIdAndAdminId(DODO_ID, ADMIN_A_ID), updated);

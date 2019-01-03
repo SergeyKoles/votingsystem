@@ -50,7 +50,7 @@ public class RootController {
     }
 
     @GetMapping(value = "/restaurants/{id}/votes")
-    public long getAllByRestaurantId(@PathVariable("id") long id){
+    public long countVotesByRestaurantId(@PathVariable("id") long id){
         return voteService.countAllByRestaurantId(id);
     }
 }

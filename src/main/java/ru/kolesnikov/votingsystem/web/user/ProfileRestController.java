@@ -22,14 +22,21 @@ public class ProfileRestController {
     private VoteService voteService;
 
     @PostMapping(value = "/restaurants/{id}/votes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createOrUpdateVote(@RequestBody Vote vote, @PathVariable("id") long restaurantId) {
+    public ResponseEntity<Vote> createOrUpdateVote(@PathVariable("id") long restaurantId) {
         long userId = SecurityUtil.authUserId();
 
-        Vote created = voteService.create(vote, restaurantId, userId);
+        Vote created = voteService.create(restaurantId, userId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/restaurants/{id}/votes" + "/{id}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @DeleteMapping(value = "/votes")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteVote() {
+        long userId = SecurityUtil.authUserId();
+        voteService.deleteVoteByUserId(userId);
     }
 }

@@ -31,26 +31,26 @@ public class AdminRestaurantController {
 
     @GetMapping(value = "/{adminId}/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getRestaurantsByAdminId() {
-        long adminId = SecurityUtil.authAdminId();
+        long adminId = SecurityUtil.authUserId();
         return restaurantService.getAllByAdminId(adminId);
     }
 
     @GetMapping(value = "/{adminId}/restaurants/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant getRestaurantByIdAndAdminId(@PathVariable("id") long id) {
-        long adminId = SecurityUtil.authAdminId();
+        long adminId = SecurityUtil.authUserId();
         return restaurantService.getRestaurantByIdAndAdminId(id, adminId);
     }
 
     @DeleteMapping(value = "/restaurants/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteRestaurantByIdAndByAdminId(@PathVariable("id") long id) {
-        long adminId = SecurityUtil.authAdminId();
+        long adminId = SecurityUtil.authUserId();
         restaurantService.delete(id, adminId);
     }
 
     @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
-        long adminId = SecurityUtil.authAdminId();
+        long adminId = SecurityUtil.authUserId();
         Restaurant created = restaurantService.create(restaurant, adminId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/admin/restaurant" + "/{id}")
@@ -59,10 +59,10 @@ public class AdminRestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurants/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@RequestBody Restaurant restaurant, @PathVariable("id") long id) {
-        long adminId = SecurityUtil.authAdminId();
+        long adminId = SecurityUtil.authUserId();
         restaurantService.update(restaurant, adminId);
     }
 
