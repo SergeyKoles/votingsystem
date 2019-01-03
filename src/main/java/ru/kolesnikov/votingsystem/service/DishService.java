@@ -10,11 +10,11 @@ public interface DishService {
 
     Dish get(long id, long restaurantId);
 
-    Dish create(Dish dish, long restaurantId);
+    Dish create(Dish dish, long restaurantId, long adminId);
 
-    Dish update(Dish dish, long restaurantId);
+    Dish update(Dish dish, long restaurantId, long adminId);
 
-    void delete(long id, long restaurantId);
+    void delete(long id, long restaurantId, long adminId);
 
     List<Dish> getAllWithRestaurants();
 }

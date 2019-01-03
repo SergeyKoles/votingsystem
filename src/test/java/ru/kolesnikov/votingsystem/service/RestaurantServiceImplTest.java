@@ -28,7 +28,7 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void get() throws Exception {
-        Restaurant restaurant = service.get(DODO_ID, ADMIN_A_ID);
+        Restaurant restaurant = service.getRestaurantByIdAndAdminId(DODO_ID, ADMIN_A_ID);
         assertMatch(restaurant, DODO);
     }
 
@@ -45,7 +45,7 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
         Restaurant updated = new Restaurant(DODO_ID, "DODOdiscont");
         updated.setAdmin(ADMIN_A);
         service.update(updated, ADMIN_A_ID);
-        assertMatch(service.get(DODO_ID, ADMIN_A_ID), updated);
+        assertMatch(service.getRestaurantByIdAndAdminId(DODO_ID, ADMIN_A_ID), updated);
     }
 
     @Test

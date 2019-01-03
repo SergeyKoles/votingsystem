@@ -16,43 +16,47 @@ public class VoteServiceImplTest extends AbstractServiceTest {
     private VoteService voteService;
 
     @Test
-    public void countAllByRestaurantId() throws Exception {
-        assertMatch(voteService.countAllByRestaurantId(DODO_ID), 3L);
-    }
-
-
-    @Test
-    public void deleteAll() throws Exception {
-        voteService.deleteAll();
-        assertMatch(voteService.countAllByRestaurantId(DODO_ID), 0L);
-    }
-
-    @Test
     public void getByUserId() {
         assertMatch(voteService.getByUserId(USER_A_ID), VOTE_USER_A);
     }
 
-//    change DEAD_LINE_OF_VOTING = LocalTime.of(23, 59)!!!
+    //    change DEAD_LINE_OF_VOTING = LocalTime.of(23, 59)!!!
     @Test
     public void create() {
-        Vote newVote = new Vote();
-        Vote createdVote = voteService.create(newVote, DODO_ID, ADMIN_A_ID);
+        assertMatch(voteService.countAllByRestaurantId(100009), 3);
+        Vote createdVote = voteService.create(DODO_ID, ADMIN_A_ID);
         assertMatch(createdVote, VOTE_ADMIN_A);
+        assertMatch(voteService.countAllByRestaurantId(100009), 4);
+    }
+
+    @Test
+    public void createDoubleClick() {
+        assertMatch(voteService.countAllByRestaurantId(100009), 3);
+        Vote createdVote = voteService.create(DODO_ID, USER_A_ID);
+        assertMatch(voteService.countAllByRestaurantId(100009), 3);
     }
 
     @Test
     public void update() {
         Vote updatedVote = voteService.getByUserId(USER_A_ID);
-        voteService.update(updatedVote, TEREMOK_ID);
+        voteService.create(TEREMOK_ID, USER_A_ID);
         updatedVote.setRestaurant(TEREMOK);
         assertMatch(updatedVote, voteService.getByUserId(USER_A_ID));
+        assertMatch(voteService.countAllByRestaurantId(100010), 3);
+        assertMatch(voteService.countAllByRestaurantId(100009), 2);
+
     }
 
     @Test
-    public void deleteByUserId() {
-        voteService.deleteByUserId(USER_A_ID);
-        assertMatch(voteService.getByUserId(USER_A_ID), null);
-//        assertMatch(voteService.countAllByRestaurantId(DODO_ID), 1L);
+    public void delete() {
+        voteService.deleteVoteByUserId(USER_A_ID);
+        assertMatch(voteService.countAllByRestaurantId(100009), 2);
+        voteService.deleteVoteByUserId(USER_A_ID);
+        assertMatch(voteService.countAllByRestaurantId(100009), 2);
     }
 
+    @Test
+    public void countAllByRestaurantId() {
+        assertMatch(voteService.countAllByRestaurantId(100009), 3);
+    }
 }

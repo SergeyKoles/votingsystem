@@ -9,7 +9,9 @@ public interface RestaurantService {
 
     List<Restaurant> getAllByAdminId(long adminId);
 
-    Restaurant get(long id, long adminId);
+    Restaurant getRestaurantByIdAndAdminId(long id, long adminId);
+
+    Restaurant getRestaurantById(long id);
 
     Restaurant create(Restaurant restaurant, long adminId);
 

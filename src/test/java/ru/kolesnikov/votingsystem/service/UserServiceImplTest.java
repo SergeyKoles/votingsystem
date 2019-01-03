@@ -29,7 +29,7 @@ public class UserServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void create() throws Exception {
-        User newUser = new User(null, "new@yandex.ru", "password_new", Role.USER);
+        User newUser = new User(null, "new@yandex.ru", "password_new", Role.ROLE_USER);
         User created = service.create(newUser);
         newUser.setId(created.getId());
         assertMatch(service.getAll(), USER_A, USER_B, USER_C, USER_D, USER_E, USER_F, USER_G, ADMIN_A, ADMIN_B, newUser);
@@ -47,5 +47,10 @@ public class UserServiceImplTest extends AbstractServiceTest {
     public void delete() throws Exception {
         service.delete(USER_A_ID);
         assertMatch(service.getAll(), USER_B, USER_C, USER_D, USER_E, USER_F, USER_G, ADMIN_A, ADMIN_B);
+    }
+
+    @Test
+    public void getByEmail(){
+        assertMatch(service.getByEmail("admin_A@yandex.ru"), ADMIN_A);
     }
 }

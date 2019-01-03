@@ -10,6 +10,7 @@ import ru.kolesnikov.votingsystem.repository.VoteRepo;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 import static ru.kolesnikov.votingsystem.util.VoteUtil.DEAD_LINE_OF_VOTING;
 
@@ -26,37 +27,27 @@ public class VoteServiceImpl implements VoteService {
     private UserRepo userRepo;
 
     @Override
-    public long countAllByRestaurantId(long restaurantId) {
-        return voteRepo.countAllByRestaurantId(restaurantId);
-    }
-
-    @Override
-    public Vote create(Vote vote, long restaurantId, long userId) {
+    @Transactional
+    public Vote create(long restaurantId, long userId) {
         if (DEAD_LINE_OF_VOTING.isAfter(LocalTime.now())) {
-            if (vote.isNew()) {
-                vote.setUser(userRepo.getOne(userId));
-                vote.setRestaurant(restaurantRepo.getOne(restaurantId));
-                return voteRepo.save(vote);
-            } else {
-                update(vote, restaurantId);
-                return vote;
+            Vote vote = voteRepo.getVoteByUserId(userId);
+            if (vote == null) {
+                vote = new Vote();
             }
+            vote.setTimeOfVoting(LocalTime.now());
+            vote.setUser(userRepo.getOne(userId));
+            vote.setRestaurant(restaurantRepo.getOne(restaurantId));
+            return voteRepo.save(vote);
         }
         return null;
     }
 
     @Override
-    @Transactional
-    public void update(Vote vote, long restaurantId) {
-//        vote.setUser(userRepo.getOne(userId));
-        vote.setTimeOfVoting(LocalTime.now());
-        vote.setRestaurant(restaurantRepo.getOne(restaurantId));
-        voteRepo.save(vote);
-    }
-
-    @Override
-    public void deleteByUserId(long userId) {
-        voteRepo.deleteVoteByUserId(userId);
+    public void deleteVoteById(long id, long userId) {
+        Vote vote = voteRepo.getOne(id);
+        if (Objects.requireNonNull(vote.getUser().getId()) == userId) {
+            voteRepo.deleteVoteById(id);
+        }
     }
 
     @Override
@@ -83,5 +74,17 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public List<Vote> getAllByRestaurantId(long id) {
         return voteRepo.getAllByRestaurantId(id);
+    }
+
+    @Override
+    public void deleteVoteByUserId(long userId) {
+        if (voteRepo.getVoteByUserId(userId) != null) {
+            voteRepo.deleteVoteByUserId(userId);
+        }
+    }
+
+    @Override
+    public long countAllByRestaurantId(long restaurantId) {
+        return voteRepo.countAllByRestaurantId(restaurantId);
     }
 }
