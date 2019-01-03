@@ -8,18 +8,6 @@ import ru.kolesnikov.votingsystem.model.AbstractBaseEntity;
 import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
-    private static int id = AbstractBaseEntity.START_SEQ;
-
-    private SecurityUtil() {
-    }
-
-    public static int authUserId() {
-        return id;
-    }
-
-    public static void setAuthUserId(int id) {
-        SecurityUtil.id = id;
-    }
 
     public static AuthorizedUser safeGet() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
