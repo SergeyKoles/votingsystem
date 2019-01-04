@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import ru.kolesnikov.votingsystem.model.Dish;
+import ru.kolesnikov.votingsystem.repository.JpaUtil;
 
 import java.util.List;
 
@@ -20,9 +21,13 @@ public class DishServiceImplTest extends AbstractServiceTest {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    protected JpaUtil jpaUtil;
+
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("dishes").clear();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     @Test

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import ru.kolesnikov.votingsystem.model.Restaurant;
+import ru.kolesnikov.votingsystem.repository.JpaUtil;
 
 import java.util.List;
 
@@ -21,9 +22,14 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    protected JpaUtil jpaUtil;
+
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("restaurants").clear();
+        jpaUtil.clear2ndLevelHibernateCache();
+
     }
 
     @Test
