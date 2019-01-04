@@ -1,8 +1,10 @@
 package ru.kolesnikov.votingsystem.service;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import ru.kolesnikov.votingsystem.model.Restaurant;
 
 import java.util.List;
@@ -15,6 +17,14 @@ public class RestaurantServiceImplTest extends AbstractServiceTest {
 
     @Autowired
     private RestaurantService service;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setUp() throws Exception {
+        cacheManager.getCache("restaurants").clear();
+    }
 
     @Test
     public void getAll() throws Exception {

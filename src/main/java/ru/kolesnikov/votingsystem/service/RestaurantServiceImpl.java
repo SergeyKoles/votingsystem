@@ -1,6 +1,8 @@
 package ru.kolesnikov.votingsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.kolesnikov.votingsystem.model.Restaurant;
 import ru.kolesnikov.votingsystem.repository.RestaurantRepo;
@@ -13,12 +15,17 @@ import java.util.Objects;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
-    @Autowired
     private RestaurantRepo restaurantRepo;
 
-    @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    public RestaurantServiceImpl(RestaurantRepo restaurantRepo, UserRepo userRepo) {
+        this.restaurantRepo = restaurantRepo;
+        this.userRepo = userRepo;
+    }
+
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getAll() {
         return restaurantRepo.findAll();
@@ -29,6 +36,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepo.getOne(id);
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getAllByAdminId(long adminId) {
         return restaurantRepo.getAllByAdminId(adminId);
@@ -39,6 +47,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepo.get(id, adminId).orElse(null);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Override
     public Restaurant create(Restaurant restaurant, long adminId) {
         if (restaurant.isNew()) {
@@ -48,6 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return null;
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Override
     public Restaurant update(Restaurant restaurant, long adminId) {
         if (!restaurant.isNew() && Objects.requireNonNull(restaurant.getAdmin().getId()) == adminId) {
@@ -56,6 +66,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return null;
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Override
     public void delete(long id, long adminId) {
         restaurantRepo.deleteRestaurantByIdAndAdminId(id, adminId);

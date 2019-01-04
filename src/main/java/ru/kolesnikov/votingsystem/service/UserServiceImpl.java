@@ -17,8 +17,12 @@ import java.util.List;
 //@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    public UserServiceImpl(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     public List<User> getAll() {

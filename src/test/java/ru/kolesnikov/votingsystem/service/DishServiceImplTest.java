@@ -1,7 +1,9 @@
 package ru.kolesnikov.votingsystem.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import ru.kolesnikov.votingsystem.model.Dish;
 
 import java.util.List;
@@ -14,6 +16,14 @@ public class DishServiceImplTest extends AbstractServiceTest {
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setUp() throws Exception {
+        cacheManager.getCache("dishes").clear();
+    }
 
     @Test
     public void getAllByRestaurantId() throws Exception {
@@ -45,7 +55,8 @@ public class DishServiceImplTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         dishService.delete(PLAIN_ID, TEREMOK_ID, ADMIN_A_ID);
-        assertMatch(dishService.getAllByRestaurantId(TEREMOK_ID), CHICKEN, HAMBURGER);
+        assertMatch(dishService.get(PLAIN_ID,TEREMOK_ID), PLAIN);
+//        assertMatch(dishService.getAllByRestaurantId(TEREMOK_ID), CHICKEN, HAMBURGER);
     }
 
 }

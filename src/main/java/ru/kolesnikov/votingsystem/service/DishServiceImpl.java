@@ -1,6 +1,8 @@
 package ru.kolesnikov.votingsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kolesnikov.votingsystem.model.Dish;
@@ -16,15 +18,20 @@ import java.util.Objects;
 @Service
 public class DishServiceImpl implements DishService {
 
-    @Autowired
-    private DishRepo dishRepo;
+    private final DishRepo dishRepo;
+
+    private final UserRepo userRepo;
+
+    private final RestaurantRepo restaurantRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    public DishServiceImpl(DishRepo dishRepo, UserRepo userRepo, RestaurantRepo restaurantRepo) {
+        this.dishRepo = dishRepo;
+        this.userRepo = userRepo;
+        this.restaurantRepo = restaurantRepo;
+    }
 
-    @Autowired
-    private RestaurantRepo restaurantRepo;
-
+    @Cacheable("dishes")
     @Override
     public List<Dish> getAllByRestaurantId(long restaurantId) {
         return dishRepo.getAllByRestaurantId(restaurantId);
@@ -35,6 +42,7 @@ public class DishServiceImpl implements DishService {
         return dishRepo.get(id, restaurantId);
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @Transactional
     @Override
     public Dish create(Dish dish, long restaurantId, long adminId) {
@@ -49,6 +57,7 @@ public class DishServiceImpl implements DishService {
         return null;
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @Override
     public Dish update(Dish dish, long restaurantId, long adminId) {
         Restaurant restaurant = restaurantRepo.get(restaurantId, adminId).orElse(null);
@@ -61,14 +70,16 @@ public class DishServiceImpl implements DishService {
         return null;
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @Override
     public void delete(long id, long restaurantId, long adminId) {
         Restaurant restaurant = restaurantRepo.get(restaurantId, adminId).orElse(null);
         if (restaurant != null) {
-            dishRepo.delete(id, restaurantId);
+            dishRepo.deleteDishByIdAndRestaurantId(id, restaurantId);
         }
     }
 
+    @Cacheable("dishes")
     @Override
     public List<Dish> getAllWithRestaurants() {
         return dishRepo.getAllWithRestaurants();

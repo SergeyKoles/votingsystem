@@ -17,14 +17,18 @@ import static ru.kolesnikov.votingsystem.util.VoteUtil.DEAD_LINE_OF_VOTING;
 @Service
 public class VoteServiceImpl implements VoteService {
 
-    @Autowired
     private VoteRepo voteRepo;
 
-    @Autowired
     private RestaurantRepo restaurantRepo;
 
-    @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    public VoteServiceImpl(VoteRepo voteRepo, RestaurantRepo restaurantRepo, UserRepo userRepo) {
+        this.voteRepo = voteRepo;
+        this.restaurantRepo = restaurantRepo;
+        this.userRepo = userRepo;
+    }
 
     @Override
     @Transactional
