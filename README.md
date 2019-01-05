@@ -20,9 +20,11 @@ If it is after 11:00 then it is too late, vote can't be changed
 
 Используемые инструменты и технологии: Maven, Spring MVC, Security, JPA(Hibernate), REST(Jackson), Java 8 Stream and Time API и хранением базы данных в HSQLDB.
 
-Скрипты инициализации и наполнение базы данных(HSQLDB) лежат -  votingsystem/src/main/resources/db/
+Скрипты инициализации и наполнение базы данных(HSQLDB) лежат -  `votingsystem/src/main/resources/db`
 
-Команды curl находятся - votingsystem\config\curl.md
+Статическая переменная DEAD_LINE_OF_VOTING (время до которого разрешается голосовать) устанавливается в `votingsystem\src\main\java\ru\kolesnikov\votingsystem\util\VoteUtil.java`
+
+Команды curl находятся - `votingsystem\config\curl.md`
 
 ## Использование API
 
