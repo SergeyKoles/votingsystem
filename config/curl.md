@@ -1,5 +1,5 @@
 
-### **any user**
+# **any user**
 ### get All Restaurants with menu and vote's rate  - any user
 `curl -s http://localhost:8080/voting/restaurants`
 ### get Restaurant with menu and vote's rate  - any user
@@ -7,7 +7,7 @@
 ### count votes by restaurant id  - any user
 `curl -s http://localhost:8080/voting/restaurants/100009/votes`
 
-### **authorized user**
+# **authorized user**
 ### (create) vote DODO restaurant by Admin_A   - authorized user
 `curl -s -X POST -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/profile/restaurants/100009/votes --user admin_A@yandex.ru:password_admin_A`
 ### (update) vote TEREMOK restaurant by User_A (already voted)  - authorized user
@@ -15,7 +15,7 @@
 ### (delete) vote DODO restaurant by User_A (already voted)  - authorized user
 `curl -s -X DELETE http://localhost:8080/voting/profile/votes --user user_B@yandex.ru:password_B`
 
-### **admin**
+# **admin**
 ### get All Restaurants  - admin
 `curl -s http://localhost:8080/voting/admin/restaurants --user admin_A@yandex.ru:password_admin_A`
 ### get All Restaurants by Admin Id  - admin

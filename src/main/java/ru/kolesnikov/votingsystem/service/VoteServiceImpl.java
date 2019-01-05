@@ -82,8 +82,10 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public void deleteVoteByUserId(long userId) {
-        if (voteRepo.getVoteByUserId(userId) != null) {
-            voteRepo.deleteVoteByUserId(userId);
+        if (DEAD_LINE_OF_VOTING.isAfter(LocalTime.now())) {
+            if (voteRepo.getVoteByUserId(userId) != null) {
+                voteRepo.deleteVoteByUserId(userId);
+            }
         }
     }
 
