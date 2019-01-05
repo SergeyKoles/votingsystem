@@ -20,7 +20,6 @@ public class VoteServiceImplTest extends AbstractServiceTest {
         assertMatch(voteService.getByUserId(USER_A_ID), VOTE_USER_A);
     }
 
-    //    change DEAD_LINE_OF_VOTING = LocalTime.of(23, 59)!!!
     @Test
     public void create() {
         assertMatch(voteService.countAllByRestaurantId(100009), 3);

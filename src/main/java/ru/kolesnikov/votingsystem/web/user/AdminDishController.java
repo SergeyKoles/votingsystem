@@ -1,5 +1,7 @@
 package ru.kolesnikov.votingsystem.web.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +20,8 @@ import java.util.List;
 @RequestMapping("/admin/restaurants")
 public class AdminDishController {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private RestaurantService restaurantService;
 
@@ -28,6 +32,7 @@ public class AdminDishController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("restId") long restId, @PathVariable("id") long id) {
         long adminId = SecurityUtil.authUserId();
+        log.info("delete dish {} for restaurant {}", id, restId);
         dishService.delete(id, restId, adminId);
     }
 
@@ -35,6 +40,7 @@ public class AdminDishController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@RequestBody Dish dish, @PathVariable("restId") long restId, @PathVariable("id") long id) {
         long adminId = SecurityUtil.authUserId();
+        log.info("update dish {} for restaurant {}", dish, restId);
         dishService.update(dish, restId, adminId);
     }
 
@@ -45,12 +51,14 @@ public class AdminDishController {
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/admin/restaurants/{restId}/dishes/{id}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
+        log.info("create dish {} for restaurant {}", dish, restaurantId);
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @GetMapping(value = "/{restId}/dishes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getDishesByRestaurantId(@PathVariable("restId") long restaurantId) {
+        log.info("getAll dishes for restaurant {}", restaurantId);
         return dishService.getAllByRestaurantId(restaurantId);
     }
 }
