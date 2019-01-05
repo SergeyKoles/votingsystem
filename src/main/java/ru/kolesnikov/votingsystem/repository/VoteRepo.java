@@ -1,11 +1,9 @@
 package ru.kolesnikov.votingsystem.repository;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kolesnikov.votingsystem.model.Vote;
@@ -15,8 +13,7 @@ import java.util.List;
 @Repository
 public interface VoteRepo extends JpaRepository<Vote, Long> {
 
-    long countAllByRestaurantId(long restaurantId);
-
+    @Transactional
     Vote getVoteByUserId(long userId);
 
     @Modifying
@@ -24,7 +21,6 @@ public interface VoteRepo extends JpaRepository<Vote, Long> {
     Vote save(Vote vote);
 
     @Modifying
-    @Query("DELETE FROM Vote")
     void deleteAll();
 
     @Transactional
@@ -39,4 +35,11 @@ public interface VoteRepo extends JpaRepository<Vote, Long> {
     @Transactional
     @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     List<Vote> getAllByRestaurantId(long id);
+
+    @Transactional
+    @Modifying
+    void deleteVoteById(long id);
+
+    @Transactional
+    long countAllByRestaurantId(long restaurantId);
 }
