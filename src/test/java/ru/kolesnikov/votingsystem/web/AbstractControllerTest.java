@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import ru.kolesnikov.votingsystem.repository.JpaUtil;
 
 import javax.annotation.PostConstruct;
 
@@ -31,9 +32,11 @@ public abstract class AbstractControllerTest {
 
     protected MockMvc mockMvc;
 
-//    @Autowired
-//    private CacheManager cacheManager;
+    @Autowired
+    private CacheManager cacheManager;
 
+    @Autowired
+    private JpaUtil jpaUtil;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -49,9 +52,8 @@ public abstract class AbstractControllerTest {
 
     @BeforeEach
     void setUp() {
-//        cacheManager.getCache("users").clear();
-//        if (jpaUtil != null) {
-//            jpaUtil.clear2ndLevelHibernateCache();
-//        }
+        cacheManager.getCache("restaurants").clear();
+        cacheManager.getCache("dishes").clear();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 }

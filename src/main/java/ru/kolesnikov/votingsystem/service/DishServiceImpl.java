@@ -20,14 +20,11 @@ public class DishServiceImpl implements DishService {
 
     private final DishRepo dishRepo;
 
-    private final UserRepo userRepo;
-
     private final RestaurantRepo restaurantRepo;
 
     @Autowired
-    public DishServiceImpl(DishRepo dishRepo, UserRepo userRepo, RestaurantRepo restaurantRepo) {
+    public DishServiceImpl(DishRepo dishRepo, RestaurantRepo restaurantRepo) {
         this.dishRepo = dishRepo;
-        this.userRepo = userRepo;
         this.restaurantRepo = restaurantRepo;
     }
 
@@ -39,18 +36,16 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public Dish get(long id, long restaurantId) {
-        return dishRepo.get(id, restaurantId);
+        return dishRepo.getDishByIdAndRestaurantId(id, restaurantId);
     }
 
     @CacheEvict(value = "dishes", allEntries = true)
     @Transactional
     @Override
     public Dish create(Dish dish, long restaurantId, long adminId) {
-        Restaurant restaurant = restaurantRepo.getOne(restaurantId);
+        Restaurant restaurant = restaurantRepo.getRestaurantByIdAndAdminId(restaurantId, adminId).orElse(null);
 
-        if (dish.isNew() &&
-                restaurant != null &&
-                adminId == Objects.requireNonNull(restaurant.getAdmin().getId())) {
+        if (dish.isNew() && restaurant != null) {
             dish.setRestaurant(restaurantRepo.getOne(restaurantId));
             return dishRepo.save(dish);
         }
@@ -60,10 +55,8 @@ public class DishServiceImpl implements DishService {
     @CacheEvict(value = "dishes", allEntries = true)
     @Override
     public Dish update(Dish dish, long restaurantId, long adminId) {
-        Restaurant restaurant = restaurantRepo.get(restaurantId, adminId).orElse(null);
-        if (restaurant != null &&
-                !dish.isNew() &&
-                dishRepo.get(Objects.requireNonNull(dish.getId()), restaurantId) != null) {
+        Restaurant restaurant = restaurantRepo.getRestaurantByIdAndAdminId(restaurantId, adminId).orElse(null);
+        if (restaurant != null && !dish.isNew()) {
             dish.setRestaurant(restaurant);
             return dishRepo.save(dish);
         }
@@ -73,7 +66,7 @@ public class DishServiceImpl implements DishService {
     @CacheEvict(value = "dishes", allEntries = true)
     @Override
     public void delete(long id, long restaurantId, long adminId) {
-        Restaurant restaurant = restaurantRepo.get(restaurantId, adminId).orElse(null);
+        Restaurant restaurant = restaurantRepo.getRestaurantByIdAndAdminId(restaurantId, adminId).orElse(null);
         if (restaurant != null) {
             dishRepo.deleteDishByIdAndRestaurantId(id, restaurantId);
         }

@@ -1,6 +1,5 @@
 package ru.kolesnikov.votingsystem.model;
 
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

@@ -38,4 +38,6 @@
 ### delete Dishes  - admin
 `curl -s -X DELETE http://localhost:8080/voting/admin/restaurants/100013/dishes/100027 --user admin_B@yandex.ru:password_admin_B`
 
+### reset votes  - admin
+`curl -s -X DELETE http://localhost:8080/voting/admin/votes/reset --user admin_B@yandex.ru:password_admin_B`
 

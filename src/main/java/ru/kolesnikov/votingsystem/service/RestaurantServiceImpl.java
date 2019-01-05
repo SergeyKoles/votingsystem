@@ -44,7 +44,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantByIdAndAdminId(long id, long adminId) {
-        return restaurantRepo.get(id, adminId).orElse(null);
+        return restaurantRepo.getRestaurantByIdAndAdminId(id, adminId).orElse(null);
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)

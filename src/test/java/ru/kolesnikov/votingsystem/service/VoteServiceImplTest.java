@@ -56,6 +56,13 @@ public class VoteServiceImplTest extends AbstractServiceTest {
     }
 
     @Test
+    public void resetVotes(){
+        voteService.deleteAll();
+        assertMatch(voteService.countAllByRestaurantId(100009), 0);
+        assertMatch(voteService.countAllByRestaurantId(100010), 0);
+    }
+
+    @Test
     public void countAllByRestaurantId() {
         assertMatch(voteService.countAllByRestaurantId(100009), 3);
     }
